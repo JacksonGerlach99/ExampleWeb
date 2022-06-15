@@ -1,1 +1,1 @@
-Will be up in a few days to show an example of possible site
+Will be using three js to make a wave animation website that syncs up with the beat of music.
