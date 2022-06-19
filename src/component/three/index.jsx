@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react"
 import { Camera } from "three"
 import {angleToRadians} from "../../Assets/angle"
 import * as THREE from "three";
+import gsap from "gsap"
 
 function Three() {
     const orbitControlsRef = useRef(null);
@@ -16,14 +17,34 @@ function Three() {
         }
 
     })
-    
+
+    //animation
+    const ballRef = useRef(null);
     useEffect(() =>{
-        if(!!orbitControlsRef) {
-            console.log(orbitControlsRef.current);
+        if(!!ballRef.current){
+
+            //timeline
+            const timeline = gsap.timeline({paused:true});
+
+            //x-axis motion 
+            timeline.to(ballRef.current.position, {
+                x: 1,
+                duration: 2,
+            })
+
+            //y-axis motion
+            timeline.to(ballRef.current.position, {
+                y:0.5,
+                duration:1,
+                ease: "bounce.out"
+            },"<")
+            
+            timeline.play();
+
         }
 
-    }, [orbitControlsRef.current])
-    
+    }, [ballRef.current])
+
     
     return(
         <>
@@ -33,7 +54,7 @@ function Three() {
 
 
         {/* Ball */}
-        <mesh position={[0, 0.5, 0]} castShadow>
+        <mesh position={[-2, 1.5, 0]} castShadow ref={ballRef}>
             <sphereGeometry args={[0.5,32,32]}/>
             <meshStandardMaterial color="#FFFFFF" metalness={0.6} roughness={0.2}/>
         </mesh>
