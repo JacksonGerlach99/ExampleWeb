@@ -13,27 +13,31 @@ function Three({ count = 1000 }) {
 
     const imgTex = useLoader(THREE.TextureLoader, circleImg);
     const bufferRef = useRef();
+
     
     const points = useMemo(() => {
         const p = new Array(count).fill(0).map((v) => (0.5 - Math.random()) * 7.5);
-        return new BufferAttribute(new Float32Array(p), 3);
+        return new BufferAttribute(new Float32Array(p), 2);
       }, [count]);
 
     
     return(
         <>
         <PerspectiveCamera makeDefault position={[0,1,5]}/>
-        <OrbitControls ref={orbitControlsRef} enableZoom={false} minPolarAngle={angleToRadians(60)} maxPolarAngle={angleToRadians(80)}/>
+        <OrbitControls ref={orbitControlsRef} enableZoom={false} minPolarAngle={angleToRadians(60)} maxPolarAngle={angleToRadians(360)}/>
         <points>
             <bufferGeometry>
                 <bufferAttribute attach={"attributes-position"} {...points} />
             </bufferGeometry>
             <pointsMaterial
+                attach={"material"}
                 map={imgTex}
                 size={0.1}
-                threshold={0.1}
-                color={0xff00ff}
-                sizeAttenuation={true}
+                sizeAttenuation
+                color={0x00AAff}
+                transparent ={false}
+                alphaTest ={0.5}
+                opacity={1}
             />
         </points>
 
